@@ -28,27 +28,20 @@ node {
             currentBuild.displayName = "${ENVIRONMENT}-${VERSION}"
         }
         
-        stage ("Build Docker Image") {
+        stage ("Build Image") {
             
             sh "docker build --build-arg configuration=${ENVIRONMENT} -t ${IMAGE_NAME_TAG} ."
+
+        }
+        
+        stage ("Push Container to Registry") {
+
             withCredentials([usernamePassword(credentialsId: 'DockerRegistry', passwordVariable: 'psw', usernameVariable: 'usr')]) {
                 sh 'docker login -u ${usr} -p ${psw} https://repository.factotumsoftware.com'
                 sh "docker push ${IMAGE_NAME_TAG}"
             }
         }
-        
-        stage ("Stop Current Container") {
 
-            sh 'docker rename ${PROJECT_NAME}_${ENVIRONMENT} ${PROJECT_NAME}_${ENVIRONMENT}_old || true'
-            sh 'docker stop ${PROJECT_NAME}_${ENVIRONMENT}_old || true && docker rm ${PROJECT_NAME}_${ENVIRONMENT}_old || true'
-
-        }
-        
-        stage ("Run Docker Container") {
-
-            sh "docker run -p ${PORT} -d --name ${PROJECT_NAME}_${ENVIRONMENT} ${IMAGE_NAME_TAG}"
-
-        }
     } finally {
         cleanWs()
     }
