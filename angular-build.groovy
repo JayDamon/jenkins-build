@@ -2,13 +2,11 @@ node {
 
     def VERSION
     def IMAGE_NAME_TAG
-    def PROJECT_NAME = 'bond'
     def REPOSITORY = 'repository.factotumsoftware.com'
-    def ENVIRONMENT = 'dev'
+    
     try {
         stage ("Checkout") {
        
-            // git branch: '${BRANCH_SELECTOR}', url: 'https://github.com/JayDamon/bond.git', credentialsId: 'GitHub'   
             checkout scm: [
                 $class: 'GitSCM', 
                 userRemoteConfigs: [
@@ -32,9 +30,9 @@ node {
         
         stage ("Build Docker Image") {
             
-            sh "docker build --build-arg configuration=dev -t ${IMAGE_NAME_TAG} ."
-            withCredentials([usernamePassword(credentialsId: 'DockerRegistry', passwordVariable: 'psswd', usernameVariable: 'username')]) {
-                sh 'docker login -u ${username} -p ${psswd} https://repository.factotumsoftware.com'
+            sh "docker build --build-arg configuration=${ENVIRONMENT} -t ${IMAGE_NAME_TAG} ."
+            withCredentials([usernamePassword(credentialsId: 'DockerRegistry', passwordVariable: 'psw', usernameVariable: 'usr')]) {
+                sh 'docker login -u ${usr} -p ${psw} https://repository.factotumsoftware.com'
                 sh "docker push ${IMAGE_NAME_TAG}"
             }
         }
