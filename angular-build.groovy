@@ -17,7 +17,7 @@ node {
                 ],
                 branches: [
                     [
-                        name: '${BRANCH_SELECTOR}'
+                        name: "${BRANCH_SELECTOR}"
                     ]
                 ],
             ], poll: false
