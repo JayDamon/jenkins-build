@@ -23,8 +23,7 @@ node {
                 ],
             ], poll: false
             
-            packageJSON = readJSON file: 'package.json'   
-            VERSION = packageJSON.version
+            VERSION = readMavenPom().getVersion()
             IMAGE_NAME_TAG = "${REPOSITORY}/${PROJECT_NAME}:${VERSION}"
             currentBuild.displayName = "${ENVIRONMENT}-${VERSION}"
         }
