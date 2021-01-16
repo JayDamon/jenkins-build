@@ -3,6 +3,7 @@ node {
     def VERSION
     def IMAGE_NAME_TAG
     def REPOSITORY = 'repository.factotumsoftware.com'
+
     
     try {
         stage ("Checkout") {
@@ -25,6 +26,7 @@ node {
             packageJSON = readJSON file: 'package.json'   
             VERSION = packageJSON.version
             IMAGE_NAME_TAG = "${REPOSITORY}/${PROJECT_NAME}:${VERSION}"
+            currentBuild.displayName = "${ENVIRONMENT}-${IMAGE_NAME_TAG}"
             echo "${IMAGE_NAME_TAG}"
         }
         
