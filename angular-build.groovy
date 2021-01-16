@@ -32,7 +32,7 @@ node {
             
             sh "docker build --build-arg configuration=${ENVIRONMENT} -t ${IMAGE_NAME_TAG} ."
             withCredentials([usernamePassword(credentialsId: 'DockerRegistry', passwordVariable: 'psw', usernameVariable: 'usr')]) {
-                sh 'echo ${psw} | docker login -u ${usr} --password-stdin https://repository.factotumsoftware.com'
+                sh 'docker login -u ${usr} -p ${psw} https://repository.factotumsoftware.com'
                 sh "docker push ${IMAGE_NAME_TAG}"
             }
         }
