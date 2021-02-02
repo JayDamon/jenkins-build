@@ -25,7 +25,7 @@ node {
             
             packageJSON = readJSON file: 'package.json'   
             VERSION = packageJSON.version
-            IMAGE_NAME_TAG = "${REPOSITORY}/${PROJECT_NAME}:${VERSION}"
+            IMAGE_NAME_TAG = "${REPOSITORY}/${ENVIRONMENT}-${PROJECT_NAME}:${VERSION}"
             currentBuild.displayName = "${ENVIRONMENT}-${VERSION}"
         }
         

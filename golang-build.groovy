@@ -24,7 +24,7 @@ node {
 
 
             VERSION = "${BRANCH_SELECTOR}"
-            IMAGE_NAME_TAG = "${REPOSITORY}/${ENVIRONMENT}-${PROJECT_NAME}:${VERSION}"
+            IMAGE_NAME_TAG = "${REPOSITORY}/${PROJECT_NAME}:${VERSION}"
             currentBuild.displayName = "${ENVIRONMENT}-${VERSION}"
         }
 
