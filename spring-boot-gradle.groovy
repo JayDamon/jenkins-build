@@ -23,28 +23,30 @@ node {
                 ],
             ], poll: false
             
-            VERSION = sh(
-                script: "./gradlew properties --no-daemon --console=plain -q | grep \"^version:\" | awk '{printf $2}'",
-                returnStdout: true,
-            )
-            echo VERSION
+            sh 'chmod +x gradlew'
+
+            VERSION = sh (
+                script: "./gradlew properties -q | grep \"version:\" | awk '{print \$2}'",
+                returnStdout: true
+            ).trim()
+
             IMAGE_NAME_TAG = "${REPOSITORY}/${PROJECT_NAME}:${VERSION}"
             currentBuild.displayName = "${ENVIRONMENT}-${VERSION}"
         }
         
-        // stage ("Build Image") {
+        stage ("Build Image") {
             
-        //     sh "docker build -t ${IMAGE_NAME_TAG} ."
+            sh "docker build -t ${IMAGE_NAME_TAG} ."
 
-        // }
+        }
         
-        // stage ("Push Container to Registry") {
+        stage ("Push Container to Registry") {
 
-        //     withCredentials([usernamePassword(credentialsId: 'DockerRegistry', passwordVariable: 'psw', usernameVariable: 'usr')]) {
-        //         sh 'docker login -u ${usr} -p ${psw} https://repository.factotumsoftware.com'
-        //         sh "docker push ${IMAGE_NAME_TAG}"
-        //     }
-        // }
+            withCredentials([usernamePassword(credentialsId: 'DockerRegistry', passwordVariable: 'psw', usernameVariable: 'usr')]) {
+                sh 'docker login -u ${usr} -p ${psw} https://repository.factotumsoftware.com'
+                sh "docker push ${IMAGE_NAME_TAG}"
+            }
+        }
 
     } finally {
         cleanWs()
