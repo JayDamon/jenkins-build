@@ -31,7 +31,7 @@ node {
             ).trim()
 
             IMAGE_NAME_TAG = "${REPOSITORY}/${PROJECT_NAME}:${VERSION}"
-            currentBuild.displayName = "${ENVIRONMENT}-${VERSION}"
+            currentBuild.displayName = "${PROJECT_NAME}-${ENVIRONMENT}-${VERSION}"
         }
         
         stage ("Build Image") {
