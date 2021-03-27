@@ -23,7 +23,10 @@ node {
                 ],
             ], poll: false
             
-            VERSION = './gradlew properties --no-daemon --console=plain -q | grep "^version:" | awk "{printf $2}"'
+            VERSION = sh(
+                script: './gradlew properties --no-daemon --console=plain -q | grep "^version:" | awk "{printf $2}"',
+                returnStdout: true,
+            )
             echo VERSION
             IMAGE_NAME_TAG = "${REPOSITORY}/${PROJECT_NAME}:${VERSION}"
             currentBuild.displayName = "${ENVIRONMENT}-${VERSION}"
