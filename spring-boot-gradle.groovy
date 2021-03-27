@@ -24,7 +24,7 @@ node {
             ], poll: false
             
             VERSION = sh(
-                script: './gradlew properties --no-daemon --console=plain -q | grep "^version:" | awk "{printf $2}"',
+                script: "./gradlew properties --no-daemon --console=plain -q | grep \"^version:\" | awk '{printf $2}'",
                 returnStdout: true,
             )
             echo VERSION
