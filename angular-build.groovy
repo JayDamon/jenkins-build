@@ -31,7 +31,7 @@ node {
         
         stage ("Build Image") {
             
-            sh "docker build --build-arg configuration=${ENVIRONMENT} -t ${IMAGE_NAME_TAG} ."
+            sh "docker build --no-cache --build-arg configuration=${ENVIRONMENT} -t ${IMAGE_NAME_TAG} ."
 
         }
         
