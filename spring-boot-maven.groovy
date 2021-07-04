@@ -37,7 +37,7 @@ node {
         stage ("Push Container to Registry") {
 
             withCredentials([usernamePassword(credentialsId: 'DockerRegistry', passwordVariable: 'psw', usernameVariable: 'usr')]) {
-                sh 'docker login -u ${usr} -p ${psw} https://repository.factotumsoftware.com'
+                sh 'docker login -u ${usr} -p ${psw} http://repository.factotumsoftware.com'
                 sh "docker push ${IMAGE_NAME_TAG}"
             }
         }
